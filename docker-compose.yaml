@@ -5,7 +5,6 @@ x-common-service: &common-service
   # uncomment the build: statement and comment out the image: statement
   # image: ghcr.io/mendableai/firecrawl
   build: apps/api
-
   ulimits:
     nofile:
       soft: 65535
@@ -70,8 +69,6 @@ services:
     depends_on:
       - redis
       - playwright-service
-    ports:
-      - "${PORT:-3002}:${INTERNAL_PORT:-3002}"
     command: [ "pnpm", "run", "start:production" ]
 
   worker:
@@ -92,7 +89,6 @@ services:
     # Using Valkey with Firecrawl is untested and not guaranteed to work. Use with caution.
     image: redis:alpine
     # image: valkey/valkey:alpine
-
     networks:
       - backend
     command: redis-server --bind 0.0.0.0
